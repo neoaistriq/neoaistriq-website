@@ -290,6 +290,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none}
 .training-hero__dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(82,172,120,0.12) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
 .training-hero__glow{position:absolute;bottom:-100px;right:5%;width:500px;height:500px;background:radial-gradient(circle,rgba(82,172,120,0.14) 0%,transparent 60%);pointer-events:none}
 .why-different{background:var(--surface-panel)}
+.why-different__grid{display:grid;grid-template-columns:1fr 380px;gap:var(--space-9);align-items:start}
 .who-card{background:var(--surface-raised);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-5)}
 .who-card h4{font-family:var(--font-display);font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--text-strong);margin-bottom:var(--space-3)}
 .who-item{display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-sm);color:#9CAAA2;padding:var(--space-2) 0;border-bottom:1px solid var(--border-subtle)}
@@ -319,7 +320,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none}
 .format-price{font-family:var(--font-display);font-size:var(--text-h1);font-weight:var(--weight-bold);color:var(--text-accent);margin-bottom:var(--space-2)}
 .format-price-sub{font-size:var(--text-sm);color:#9CAAA2;margin-bottom:var(--space-5)}
 .toolkit-strip{background:linear-gradient(135deg,var(--green-800) 0%,var(--green-850) 100%);border:1px solid var(--border-strong);border-radius:var(--radius-xl);padding:var(--space-7) var(--space-8);display:grid;grid-template-columns:1fr auto;gap:var(--space-7);align-items:center;margin-top:var(--space-8)}
-@media(max-width:900px){.format-grid{grid-template-columns:1fr}.toolkit-strip{grid-template-columns:1fr;text-align:center}}
+@media(max-width:900px){.format-grid{grid-template-columns:1fr}.toolkit-strip{grid-template-columns:1fr;text-align:center}.why-different__grid{grid-template-columns:1fr}}
 @media(max-width:600px){.module-row{flex-direction:column;gap:var(--space-3)}.module-num{width:auto;text-align:left;font-size:var(--text-h1)}}
 </style>
 <style>
@@ -565,7 +566,7 @@ h1,h2,h3,h4,h5 { color: #FFFFFF; }
 <!-- WHY DIFFERENT -->
 <section class="section why-different">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 380px;gap:var(--space-9);align-items:start">
+    <div class="why-different__grid">
       <div class="m-slide-left">
         <span class="eyebrow">Why This Training Is Different</span>
         <h2 class="section-title">Most AI Training Teaches Tools.<br>We Teach Outcomes.</h2>

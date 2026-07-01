@@ -1,0 +1,237 @@
+/* ═══════════════════════════════════════════════════════
+   NeoAistriq — CTA Modal / Parallax Popup System
+   ═══════════════════════════════════════════════════════ */
+
+/* Overlay */
+.nai-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(7,16,12,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 320ms cubic-bezier(0.22,1,0.36,1);
+}
+.nai-overlay.open { opacity: 1; pointer-events: all; }
+
+/* Modal panel */
+.nai-modal {
+  position: fixed; inset: 0; z-index: 901;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; pointer-events: none;
+}
+.nai-modal__panel {
+  background: linear-gradient(145deg, #131E1A 0%, #0F1C17 100%);
+  border: 1px solid rgba(82,172,120,0.35);
+  border-radius: 20px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(82,172,120,0.12);
+  width: 100%; max-width: 560px;
+  max-height: 90vh; overflow-y: auto;
+  transform: translateY(32px) scale(0.97);
+  opacity: 0;
+  transition: transform 380ms cubic-bezier(0.22,1,0.36,1), opacity 320ms cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+  position: relative; overflow: hidden;
+}
+.nai-modal.open .nai-modal__panel {
+  transform: translateY(0) scale(1);
+  opacity: 1; pointer-events: all;
+}
+
+/* Parallax glow orb inside panel */
+.nai-modal__orb {
+  position: absolute; top: -80px; right: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(82,172,120,0.18) 0%, transparent 65%);
+  pointer-events: none; transition: transform 120ms ease-out;
+}
+.nai-modal__orb2 {
+  position: absolute; bottom: -60px; left: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(74,140,92,0.10) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Accent top bar */
+.nai-modal__accent {
+  position: absolute; inset: 0 0 auto; height: 2px;
+  background: linear-gradient(135deg, #52AC78 0%, #4A8C5C 100%);
+}
+
+/* Close button */
+.nai-modal__close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: #9CAAA2; cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+  z-index: 2;
+}
+.nai-modal__close:hover { background: rgba(82,172,120,0.15); color: #52AC78; }
+
+/* Content */
+.nai-modal__body { padding: 36px 36px 32px; position: relative; z-index: 1; }
+
+/* Badge */
+.nai-modal__badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 999px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #52AC78; background: rgba(82,172,120,0.12);
+  border: 1px solid rgba(82,172,120,0.4);
+  margin-bottom: 16px;
+}
+.nai-modal__badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #52AC78; }
+
+/* Headline */
+.nai-modal__title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em; color: #FFFFFF;
+  margin-bottom: 10px;
+}
+.nai-modal__title em { font-style: normal; color: #52AC78; }
+
+/* Sub */
+.nai-modal__sub {
+  font-family: "Manrope", sans-serif;
+  font-size: 15px; color: #C6D2CC;
+  line-height: 1.6; margin-bottom: 24px;
+}
+
+/* Detail list */
+.nai-modal__details {
+  list-style: none; display: flex; flex-direction: column;
+  gap: 10px; margin-bottom: 28px;
+}
+.nai-modal__details li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px; color: #C6D2CC; line-height: 1.5;
+}
+.nai-modal__details li::before {
+  content: ''; flex-shrink: 0; width: 16px; height: 16px;
+  border-radius: 50%; background: rgba(82,172,120,0.15);
+  border: 1px solid rgba(82,172,120,0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2352AC78' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: center; background-size: 10px;
+  margin-top: 2px;
+}
+
+/* Price display */
+.nai-modal__price-row {
+  display: flex; align-items: baseline; gap: 8px;
+  margin-bottom: 6px;
+}
+.nai-modal__price {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem; font-weight: 700; color: #52AC78; line-height: 1;
+}
+.nai-modal__price-cadence {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px; color: #9CAAA2;
+}
+.nai-modal__price-range {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px; color: #9CAAA2; margin-bottom: 20px;
+}
+
+/* Divider */
+.nai-modal__divider {
+  height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0;
+}
+
+/* Form */
+.nai-modal__form { display: flex; flex-direction: column; gap: 14px; }
+.nai-modal__field { display: flex; flex-direction: column; gap: 6px; }
+.nai-modal__field label {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px; font-weight: 600; color: #C6D2CC;
+  letter-spacing: 0.03em;
+}
+.nai-modal__field label span { color: #52AC78; }
+.nai-modal__input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; padding: 11px 14px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px; color: #FFFFFF;
+  outline: none; transition: border-color 120ms ease, box-shadow 120ms ease;
+  width: 100%;
+}
+.nai-modal__input::placeholder { color: #5C6B64; }
+.nai-modal__input:focus {
+  border-color: rgba(82,172,120,0.6);
+  box-shadow: 0 0 0 3px rgba(82,172,120,0.15);
+}
+textarea.nai-modal__input { min-height: 90px; resize: vertical; }
+.nai-modal__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Submit button */
+.nai-modal__submit {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; border-radius: 10px;
+  background: #4A8C5C; color: #07120C;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: -0.01em;
+  border: none; cursor: pointer;
+  transition: background 120ms ease, box-shadow 200ms ease, transform 120ms ease;
+  margin-top: 4px;
+}
+.nai-modal__submit:hover {
+  background: #52AC78;
+  box-shadow: 0 0 28px rgba(82,172,120,0.3);
+  transform: translateY(-1px);
+}
+.nai-modal__submit:active { transform: translateY(0); }
+
+/* Trust line */
+.nai-modal__trust {
+  text-align: center; margin-top: 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px; color: #5C6B64;
+  letter-spacing: 0.06em;
+}
+
+/* Success state */
+.nai-modal__success {
+  display: none; text-align: center; padding: 16px 0;
+}
+.nai-modal__success.show { display: block; }
+.nai-modal__success-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(82,172,120,0.15);
+  border: 1px solid rgba(82,172,120,0.4);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.nai-modal__success h4 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.25rem; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;
+}
+.nai-modal__success p {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px; color: #C6D2CC; line-height: 1.6;
+}
+
+/* Scrollbar */
+.nai-modal__panel::-webkit-scrollbar { width: 4px; }
+.nai-modal__panel::-webkit-scrollbar-track { background: transparent; }
+.nai-modal__panel::-webkit-scrollbar-thumb { background: rgba(82,172,120,0.3); border-radius: 2px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nai-modal { padding: 12px; }
+  .nai-modal__body { padding: 28px 22px 24px; }
+  .nai-modal__row { grid-template-columns: 1fr; }
+  .nai-modal__title { font-size: 1.3rem; }
+}
+
+/* Parallax effect on mouse move */
+.nai-modal__panel { will-change: transform; }
+
+@keyframes spin { to { transform: rotate(360deg); } }

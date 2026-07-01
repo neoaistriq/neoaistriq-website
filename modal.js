@@ -9,6 +9,17 @@
 (function () {
   'use strict';
 
+  // ── EMAILJS CONFIG ──────────────────────────────────────────────
+  const EMAILJS_CONFIG = {
+    serviceId: 'service_q3hpyut',
+    templateId: 'template_jla7auz',
+    publicKey: 'pgCdQPRzqCE6UhQxw',
+  };
+
+  if (window.emailjs) {
+    emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+  }
+
   // ── MODAL CONTENT LIBRARY ─────────────────────────────────────
   const MODALS = {
 
@@ -381,8 +392,7 @@
       ${priceHTML}
       ${detailsHTML}
       <div id="naiFormWrap">
-        <form class="nai-modal__form" id="naiForm" name="neoaistriq-cta" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="neoaistriq-cta" />
+        <form class="nai-modal__form" id="naiForm" name="neoaistriq-cta" novalidate>
           <input type="hidden" name="modal_type" value="${key}" />
           <input type="hidden" name="page" value="${location.pathname}" />
           <p style="display:none"><input name="bot-field" /></p>
@@ -406,9 +416,12 @@
         <p>We'll be in touch within 1 business day.<br>In the meantime, <a href="assessment.html" style="color:#52AC78">take the free AI assessment →</a></p>
       </div>`;
 
-    // Form submit handler — Netlify Forms AJAX
+    // Form submit handler — EmailJS
     document.getElementById('naiForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
+      // Honeypot check
+      if (this.querySelector('[name="bot-field"]').value) return;
 
       // Validate required fields
       const required = this.querySelectorAll('[required]');
@@ -425,31 +438,21 @@
       btn.disabled = true;
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 0.8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Sending...';
 
-      // Netlify Forms AJAX submission
       const formData = new FormData(this);
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      .then(res => {
-        if (res.ok) {
+      const params = Object.fromEntries(formData.entries());
+      delete params['bot-field'];
+
+      emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, params)
+        .then(() => {
           document.getElementById('naiFormWrap').style.display = 'none';
           document.getElementById('naiSuccess').classList.add('show');
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(() => {
-        // Fallback: show success anyway and log error
-        document.getElementById('naiFormWrap').style.display = 'none';
-        document.getElementById('naiSuccess').classList.add('show');
-        console.error('[NeoAistriq] Form submission failed — check Netlify Forms setup');
-      })
-      .finally(() => {
-        btn.disabled = false;
-        btn.innerHTML = origLabel;
-      });
+        })
+        .catch(err => {
+          console.error('[NeoAistriq] EmailJS submission failed:', err);
+          btn.disabled = false;
+          btn.innerHTML = origLabel;
+          alert('Something went wrong sending your request — please email hello@neoaistriq.com directly.');
+        });
     });
 
     // Open

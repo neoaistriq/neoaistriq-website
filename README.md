@@ -180,3 +180,4 @@ See `assets/REPLACE_FOUNDER_PHOTO.txt` for details.
 ## LinkedIn URLs
 - Company: https://www.linkedin.com/company/neoaistriq/
 - Founder: https://www.linkedin.com/in/aggarwalsaurabh
+- Co-Director (Gomathi Parthiban): https://www.linkedin.com/in/gomathi-parthiban-642415384/
